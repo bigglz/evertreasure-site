@@ -84,14 +84,28 @@ export const platformItems: AccordionItemData[] = [
   },
   {
     id: 'platform-3',
-    titleKey: 'PLATFORM_EVERSTORE_TITLE',
-    image: '/assets/images/section/platform_everstore.webp',
-    paragraphKeys: ['PLATFORM_EVERSTORE_DESC'],
+    titleKey: 'PLATFORM_OWNIT_TITLE',
+    image: '/assets/images/section/platform_ownit.webp',
+    paragraphKeys: ['PLATFORM_OWNIT_DESC'],
   },
 ];
 
 /** 연혁 타임라인 (연도별) */
 export const timelineItems = [
+  {
+    year: '2026',
+    entryKeys: [
+      'ABOUT_HISTORY_2026_TITLE',
+      'ABOUT_HISTORY_2026_M08',
+      'ABOUT_HISTORY_2026_M07',
+      'ABOUT_HISTORY_2026_M06',
+      'ABOUT_HISTORY_2026_M05',
+      'ABOUT_HISTORY_2026_M04',
+      'ABOUT_HISTORY_2026_M03',
+      'ABOUT_HISTORY_2026_M02',
+      'ABOUT_HISTORY_2026_M01',
+    ],
+  },
   {
     year: '2025',
     entryKeys: [
@@ -163,6 +177,8 @@ export const investmentItems = [
   { image: '/assets/images/item/invest_05.webp', nameKey: 'RESULT_ITEM_05', statusKey: 'RESULT_STATUS_FUNDED' },
   { image: '/assets/images/item/invest_06.webp', nameKey: 'RESULT_ITEM_06', statusKey: 'RESULT_STATUS_FUNDED' },
   { image: '/assets/images/item/invest_07.webp', nameKey: 'RESULT_ITEM_07', statusKey: 'RESULT_STATUS_FUNDED' },
+  { image: '/assets/images/item/invest_08.webp', nameKey: 'RESULT_ITEM_08', statusKey: 'RESULT_STATUS_FUNDED' },
+  { image: '/assets/images/item/invest_09.webp', nameKey: 'RESULT_ITEM_09', statusKey: 'RESULT_STATUS_FUNDED' },
 ];
 
 /** 파트너 로고 (그룹별 무한 롤링 슬라이드) */
@@ -177,6 +193,13 @@ export const partnerGroups = [
       '/assets/images/partners/p5.webp',
       '/assets/images/partners/p6.webp',
       '/assets/images/partners/p7.webp',
+      '/assets/images/partners/p8.webp',
+      '/assets/images/partners/p9.webp',
+      '/assets/images/partners/p10.webp',
+      '/assets/images/partners/p11.webp',
+      '/assets/images/partners/p12.webp',
+      '/assets/images/partners/p13.webp',
+      '/assets/images/partners/p14.webp',
     ],
   },
   {
@@ -188,6 +211,11 @@ export const partnerGroups = [
       '/assets/images/partners/pp4.webp',
       '/assets/images/partners/pp5.webp',
       '/assets/images/partners/pp6.webp',
+      '/assets/images/partners/pp7.webp',
+      '/assets/images/partners/pp8.webp',
+      '/assets/images/partners/pp9.webp',
+      '/assets/images/partners/pp10.webp',
+      '/assets/images/partners/pp11.webp',
     ],
   },
   {
@@ -198,10 +226,17 @@ export const partnerGroups = [
       '/assets/images/partners/ppp3.webp',
       '/assets/images/partners/ppp4.webp',
       '/assets/images/partners/ppp5.webp',
+      '/assets/images/partners/ppp6.webp',
     ],
   },
   {
     titleKey: 'PARTNER_GALLERY',
-    logos: ['/assets/images/partners/pppp1.webp', '/assets/images/partners/pppp2.webp'],
+    logos: [
+      '/assets/images/partners/pppp1.webp',
+      '/assets/images/partners/pppp2.webp',
+      '/assets/images/partners/pppp3.webp',
+      '/assets/images/partners/pppp4.webp',
+      '/assets/images/partners/pppp5.webp',
+    ],
   },
 ];

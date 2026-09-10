@@ -40,7 +40,7 @@
   "GREETING_SHIRO": "<p style=\"font-size: 18px;font-weight: bold;margin-bottom: -13px;color: rgba(255, 255, 255, 0.78);\">\"거짓은 제 앞에서 무력합니다.\"</p><br/>에버트레져에 오신 것을 환영합니다.<br/>에버트레져는 AI와 블록체인 기술을 통해 예술과 콘텐츠를<br/>금융 자산으로 연결합니다.",
 
   "VISION": "우리의 핵심 가치<br />글로벌 문화 금융의 리더, 에버트레져",
-  "MISSION": "에버트레져는 단순한 플랫폼이 아닙니다. 예술과 금융을 연결하는 핀테크 솔루션입니다. STO(증권형 토큰) 기술을 통해 누구나 예술 콘텐츠의 일부를 소유할 수 있도록 만들고, AI 기술로 예술과 콘텐츠에 내재된 '보이지 않는 가치'를 데이터로 증명합니다. 에버트레져는 글로벌 크리에이티브 경제를 위한 금융 인프라를 구축하고 있습니다.",
+  "MISSION": "에버트레져는 문화 예술 금융 인프라를 선도하는 문화 금융 핀테크 기업입니다. STO(증권형 토큰) 기술을 통해 누구나 예술 콘텐츠의 일부를 소유할 수 있도록 만들고, AI 기술로 예술과 콘텐츠에 내재된 '보이지 않는 가치'를 데이터로 증명합니다. 에버트레져는 글로벌 크리에이티브 경제를 위한 금융 인프라를 구축하고 있습니다.",
 
   "ABOUT_HASHTAG_FINTECH": "#Fintech",
   "ABOUT_HASHTAG_AI": "#AI",
@@ -57,7 +57,7 @@
   "ABOUT_HASHTAG_AI_VALUATION": "#AI_Valuation",
 
   "CORE_TECH_TITLE": "핵심 기술",
-  "CORE_TECH_EVERSEAL_TITLE": "에버씰 - 블록체인으로 잠그는 신뢰",
+  "CORE_TECH_EVERSEAL_TITLE": "에버씰 - 블록체인으로 기록하는 신뢰",
   "CORE_TECH_EVERSEAL_CONCEPT": "개념: 글로벌 정품 인증 표준",
   "CORE_TECH_EVERSEAL_DESC": "설명: 이 키링 속 NFC 칩처럼, 에버씰은 예술품의 '원본성(Originality)'을 블록체인에 영구히 기록합니다.",
   "CORE_TECH_EVERSEAL_TAMPERPROOF": "위변조 불가: 한 번 잠기면, 소유권과 이력은 절대 조작할 수 없습니다.",
@@ -74,8 +74,8 @@
   "PLATFORM_YEATU_DESC": "YEATU는 팬이 곧 투자자가 되는 플랫폼입니다. 예술 콘텐츠의 미래 수익을 공유하는 증권형 토큰(STO)을 발행하며, BNK경남은행 및 글로벌 증권사와 함께 안정적인 금융 구조를 구축하고 있습니다.",
   "PLATFORM_EVERLYNQ_TITLE": "에버링크 - 글로벌 IP 매칭 플랫폼 (커넥션 허브)",
   "PLATFORM_EVERLYNQ_DESC": "EverlynQ는 창작자가 경력을 쌓고 글로벌 기업과 연결되는 곳입니다. 실질적인 글로벌 상업 프로젝트들과 함께 IP 매칭, 계약, 그리고 글로벌 협업을 가능하게 합니다.",
-  "PLATFORM_EVERSTORE_TITLE": "에버스토어 - 아트 & IP 마켓 플레이스",
-  "PLATFORM_EVERSTORE_DESC": "EverStore는 예술이 일상이 되는 온라인 마켓플레이스입니다. 검증된 예술 작품과 고품질 굿즈를 제공하여, 예술적 가치를 실질적인 소유로 전환합니다.",
+  "PLATFORM_OWNIT_TITLE": "오닛 - 아트 커머스 플랫폼 (취향을 발견하고, 가치를 소유하는 곳)",
+  "PLATFORM_OWNIT_DESC": "오닛(OWNIT)은 예술이 일상이 되는 아트 커머스 플랫폼입니다. 검증된 작가의 원화부터 창작 상품까지, 고객이 이해하고 선택할 수 있는 방식으로 소개하고 판매합니다. 예술적 가치를 실질적인 소유로 전환합니다.",
 
   "VALUE_HUNTERS_TAGLINE": "숨겨진 보물을 찾아내는 녀석들",
   "VALUE_HUNTERS_DESC": "이 세상에는 아직 빛을 보지 못한 원석(무명 아티스트, 숨겨진 명작)들이 너무 많습니다. 루미와 친구들은 특수 장비(AI, 블록체인)를 차고, 남들이 못 보는 '가치'를 먼저 찾아내는 \"엘리트 탐사대\"입니다. 이들이 찾아낸 보물은 '예투(YEATU)'라는 금고에 보관되고, 사람들은 그 조각을 나눠 갖습니다.",
@@ -97,6 +97,8 @@
   "RESULT_ITEM_05": "김민솔 ‘자유를 꿈꾸다’",
   "RESULT_ITEM_06": "정종한 ‘별이 빛나는 밤에’",
   "RESULT_ITEM_07": "정종한 ‘윤슬의 바다’",
+  "RESULT_ITEM_08": "이경현 ‘Sheep’",
+  "RESULT_ITEM_09": "섬나비 ‘뮤지컬 <펑크>’",
   "RESULT_STATUS_FUNDED": "펀딩 완료",
   "RESULT_FUNDED_PERCENT": "100%",
 
@@ -118,6 +120,15 @@
   "HISTORY_SECTION_TITLE": "에버트레져 연혁",
   "ABOUT_HISTORY_TITLE_0": "에버트레져 연혁",
   "ABOUT_HISTORY_TITLE": "연혁",
+  "ABOUT_HISTORY_2026_TITLE": "2026 (글로벌 확장 및 성장)",
+  "ABOUT_HISTORY_2026_M08": "2026.8 2027 CES 유레카 파크 선정, INVEST SEOUL CORE 선정",
+  "ABOUT_HISTORY_2026_M07": "2026.7 차세대IICT여성리더육성사업-협업프로젝트 선정",
+  "ABOUT_HISTORY_2026_M06": "2026.6 (주)경남은행 투자 유치, Money 20/20 Europe 2026 참여 기업, (재)노원문화재단 MOU",
+  "ABOUT_HISTORY_2026_M05": "2026.5 Tips 해외창업화 지원사업 선정, 북미 아마존 진출 지원사업 선정",
+  "ABOUT_HISTORY_2026_M04": "2026.4 한국전업작가협회, 한국장애인미술협회와의 MOU, 2026 예술기업 성장도약 지원사업 선정(문화체육관광부)",
+  "ABOUT_HISTORY_2026_M03": "2026.3 미국 하와이 EMW 2026 글로벌 톱 10 스타트업 선정, 2026 수출바우처 지원사업 선정",
+  "ABOUT_HISTORY_2026_M02": "2026.2 AI 바이브 코딩을 통한 서비스 개발 기반 구축, 영국 Creative UK Summit 2026 참석",
+  "ABOUT_HISTORY_2026_M01": "2026.1 중국 한중 벤처 스타트업 서밋 참여기업 선정 및 참가(이재명 대통령님 방중)",
   "ABOUT_HISTORY_2025_TITLE": "2025 (글로벌 도약 및 확장)",
   "ABOUT_HISTORY_2025_TIPS": "중소벤처기업부 TIPS 프로그램 선정 (R&D 자금 5억 원 확보)",
   "ABOUT_HISTORY_2025_KIBO": "기술보증기금 '기보 스타 밸리' 선정 (최대 30억 원 보증 및 기술성 입증)",

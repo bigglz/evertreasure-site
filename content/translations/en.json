@@ -40,7 +40,7 @@
   "GREETING_SHIRO": "<p style=\"font-size: 18px;font-weight: bold;margin-bottom: -13px;color: rgba(255, 255, 255, 0.78);\">\"Only The Real Gets Through.\"</p><br/>Welcome to EverTreasure.<br/>We combine AI & Blockchain to turn Art Contents into Finance.",
 
   "VISION": "Our Core Value<br />Global Culture Finance Leader, EverTreasure",
-  "MISSION": "EverTreasure is not just a platform; we are a Fintech Solution. We utilize STO (Security Token Offering) technology to allow anyone to own a share of Art Content, and use AI to prove the invisible value of art and culture. We are building the financial infrastructure for the global creative economy.",
+  "MISSION": "EverTreasure is a fintech company building the financial infrastructure for art and culture. Using STO (Security Token Offering) technology, we let anyone own a fractional share of art and creative assets — and we use AI to uncover value in culture that’s always been real, but never before measurable. That’s the foundation for a truly global creative economy.",
 
   "ABOUT_HASHTAG_FINTECH": "#Fintech",
   "ABOUT_HASHTAG_AI": "#AI",
@@ -57,7 +57,7 @@
   "ABOUT_HASHTAG_AI_VALUATION": "#AI_Valuation",
 
   "CORE_TECH_TITLE": "Core Technology",
-  "CORE_TECH_EVERSEAL_TITLE": "EverSeal - Trust, Locked on Blockchain",
+  "CORE_TECH_EVERSEAL_TITLE": "EverSeal — Trust, Recorded on the Blockchain",
   "CORE_TECH_EVERSEAL_CONCEPT": "Concept: Global Authenticity Standard",
   "CORE_TECH_EVERSEAL_DESC": "Description: Just like the NFC chip in this keyring, EverSeal permanently records the \"Originality\" of an artwork on the blockchain.",
   "CORE_TECH_EVERSEAL_TAMPERPROOF": "Tamper-Proof: Once locked, ownership and history cannot be forged.",
@@ -74,8 +74,8 @@
   "PLATFORM_YEATU_DESC": "YEATU is a platform where fans become investors. We issue Security Tokens (STO) that share the future profits of Art Content. Supported by a secure financial structure with BNK Kyongnam Bank and global securities firms.",
   "PLATFORM_EVERLYNQ_TITLE": "EverlynQ - Global IP Matching Platform (Connection Hub)",
   "PLATFORM_EVERLYNQ_DESC": "EverlynQ is a platform for creators to build their careers and connects creators with global enterprises. We facilitate real commercial projects, enabling IP matching, contracting, and global collaboration.",
-  "PLATFORM_EVERSTORE_TITLE": "EverStore - Art & IP Marketplace",
-  "PLATFORM_EVERSTORE_DESC": "EverStore is an online marketplace where art becomes part of everyday life. It offers artworks, creative goods, and artist collaborations through products and experiences. We offer vetted artworks and high-quality goods, turning artistic value into tangible ownership.",
+  "PLATFORM_OWNIT_TITLE": "OWNIT — Art Commerce Platform (Discover Your Taste. Own the Value.)",
+  "PLATFORM_OWNIT_DESC": "OWNIT is an art commerce platform that brings art into everyday life. From original works by verified artists to curated creative goods, we present and sell art in a way that’s easy to understand and easy to choose. We turn artistic value into something you can actually own.",
 
   "VALUE_HUNTERS_TAGLINE": "Those Who Discover What Others Miss",
   "VALUE_HUNTERS_DESC": "The world is full of hidden gems—unknown artists and overlooked masterpieces. Equipped with AI and blockchain, LUMI and her companions are elite value hunters who identify potential others fail to see. What they discover is secured in YEATU, a vault where value is preserved and shared through fractional ownership.",
@@ -97,6 +97,8 @@
   "RESULT_ITEM_05": "Kim Minsol ‘Yearning for Freedom’",
   "RESULT_ITEM_06": "Jeong Jonghan ‘Starry Night’",
   "RESULT_ITEM_07": "Jeong Jonghan ‘Shimmering Sea’",
+  "RESULT_ITEM_08": "Lee Kyunghyun ‘Sheep’",
+  "RESULT_ITEM_09": "SUMNAVI ‘Musical <Punk>’",
   "RESULT_STATUS_FUNDED": "Funding Complete",
   "RESULT_FUNDED_PERCENT": "100%",
 
@@ -118,6 +120,15 @@
   "HISTORY_SECTION_TITLE": "EverTreasure History",
   "ABOUT_HISTORY_TITLE_0": "EverTreasure History",
   "ABOUT_HISTORY_TITLE": "History",
+  "ABOUT_HISTORY_2026_TITLE": "2026 (Global Expansion & Growth)",
+  "ABOUT_HISTORY_2026_M08": "2026.08 Selected for CES 2027 Eureka Park; selected for Invest Seoul CORE",
+  "ABOUT_HISTORY_2026_M07": "2026.07 Selected for the Next-Generation ICT Women Leaders Development Program (Collaborative Project track)",
+  "ABOUT_HISTORY_2026_M06": "2026.06 Secured investment from Kyongnam Bank; selected as a participating company at Money20/20 Europe 2026; signed MOU with the Nowon Culture Foundation",
+  "ABOUT_HISTORY_2026_M05": "2026.05 Selected for the TIPS Overseas Market Entry Support Program; selected for the North America (Amazon) Market Entry Support Program",
+  "ABOUT_HISTORY_2026_M04": "2026.04 Signed MOUs with the Korea Professional Artists’ Association and the Korea Disabled Artists’ Association; selected for the 2026 Arts Enterprise Growth Support Program (Ministry of Culture, Sports and Tourism)",
+  "ABOUT_HISTORY_2026_M03": "2026.03 Named a Top 10 Global Startup at EMW 2026 in Hawaii, USA; selected for the 2026 Export Voucher Support Program",
+  "ABOUT_HISTORY_2026_M02": "2026.02 Built out the service development foundation using AI vibe coding; attended the Creative UK Summit 2026 in the UK",
+  "ABOUT_HISTORY_2026_M01": "2026.01 Selected as a participating company at the Korea-China Venture Startup Summit in China (held during President Lee Jaemyung’s visit to China)",
   "ABOUT_HISTORY_2025_TITLE": "2025 (Global Leap & Expansion)",
   "ABOUT_HISTORY_2025_TIPS": "Selected for TIPS Program (Secured ₩500M R&D funding)",
   "ABOUT_HISTORY_2025_KIBO": "Selected for KIBO 'Kibo-Star Valley' (Max. ₩3B guarantee & tech validation)",
