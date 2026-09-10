@@ -61,13 +61,15 @@ export default function Accordion({
   /** 본문 단락 스타일: 핵심기술(coreTech)과 플랫폼(platform)의 원본 마크업이 다릅니다 */
   variant?: 'coreTech' | 'platform';
 }) {
-  const { t, html } = useI18n();
+  const { t, html, lang } = useI18n();
   const [openId, setOpenId] = useState<string | null>(items[0]?.id ?? null);
 
   return (
     <div>
       {items.map((item, index) => {
         const open = openId === item.id;
+        // 언어별 이미지를 지정한 항목은 현재 언어에 맞는 경로를 씁니다.
+        const imageSrc = typeof item.image === 'string' ? item.image : item.image[lang];
         return (
           <Fragment key={item.id}>
             {index > 0 && (
@@ -101,7 +103,7 @@ export default function Accordion({
                       <div className="service-image">
                         <div className="wrap_image">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img width={340} height={206} src={asset(item.image)} alt="Image" />
+                          <img width={340} height={206} src={asset(imageSrc)} alt="Image" />
                         </div>
                       </div>
                     </div>

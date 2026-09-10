@@ -59,7 +59,7 @@
   "CORE_TECH_TITLE": "핵심 기술",
   "CORE_TECH_EVERSEAL_TITLE": "에버씰 - 블록체인으로 기록하는 신뢰",
   "CORE_TECH_EVERSEAL_CONCEPT": "개념: 글로벌 정품 인증 표준",
-  "CORE_TECH_EVERSEAL_DESC": "설명: 이 키링 속 NFC 칩처럼, 에버씰은 예술품의 '원본성(Originality)'을 블록체인에 영구히 기록합니다.",
+  "CORE_TECH_EVERSEAL_DESC": "설명: 이 키링 속 NFC 칩처럼, 에버씰은 NFC와 블록체인을 연결해 작품 정보와 소유 이력을 안전하게 영구 기록합니다.",
   "CORE_TECH_EVERSEAL_TAMPERPROOF": "위변조 불가: 한 번 잠기면, 소유권과 이력은 절대 조작할 수 없습니다.",
   "CORE_TECH_EVERSEAL_TRACKING": "글로벌 추적: 전 세계 어디서든 상태 확인이 가능합니다.",
   "CORE_TECH_EVERSEAL_TARGET": "목표: 전 세계 1,000만 개 이상의 인증 태그 발행",

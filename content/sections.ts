@@ -39,11 +39,18 @@ export const hashtagKeys = [
   'ABOUT_HASHTAG_GLOBAL_STANDARD',
 ];
 
+/**
+ * 아코디언 이미지 경로.
+ * 한 장으로 충분하면 문자열로, 언어별로 다른 이미지를 쓰려면 { ko, en } 형태로 적으세요.
+ * (예: 이미지 안에 한글/영문 화면이 들어가 있는 경우)
+ */
+export type LocalizedImage = string | { ko: string; en: string };
+
 /** 아코디언 항목 형태 (핵심기술 / 플랫폼 공용) */
 export interface AccordionItemData {
   id: string;
   titleKey: string;
-  image: string;
+  image: LocalizedImage;
   /** 본문 문단 번역 키 목록 (없으면 생략 가능) */
   paragraphKeys?: string[];
   /** 불릿 목록 번역 키 목록 (없으면 생략 가능) */
@@ -55,7 +62,10 @@ export const coreTechItems: AccordionItemData[] = [
   {
     id: 'core-tech-1',
     titleKey: 'CORE_TECH_EVERSEAL_TITLE',
-    image: '/assets/images/section/everSeal.webp',
+    image: {
+      ko: '/assets/images/section/everSeal_ko.webp',
+      en: '/assets/images/section/everSeal_en.webp',
+    },
     paragraphKeys: ['CORE_TECH_EVERSEAL_CONCEPT', 'CORE_TECH_EVERSEAL_DESC'],
     bulletKeys: ['CORE_TECH_EVERSEAL_TAMPERPROOF', 'CORE_TECH_EVERSEAL_TRACKING', 'CORE_TECH_EVERSEAL_TARGET'],
   },
