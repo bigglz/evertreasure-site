@@ -22,6 +22,22 @@ export const siteConfig = {
 
   // ── 좌측 사이드바에 표시할 캐릭터 ──────────────────────────
   // 'lumi'(북극여우) | 'tenzo'(바다거북) | 'bella'(핑크돌고래) | 'nua'(오랑우탄) | 'shiro'(코뿔소)
+  //
+  // 접속한 도메인(호스트명)에 따라 캐릭터가 자동으로 결정됩니다.
+  //   https://evertreasure-bella.bigglz.com  → bella
+  //   https://evertreasure-lumi.bigglz.com   → lumi
+  // 규칙에 맞지 않는 주소(localhost, IP 직접 접속, 오타 도메인 등)에서는
+  // 아래 character 값이 그대로 사용됩니다.
+
+  /**
+   * 호스트명에서 캐릭터 ID를 뽑아내는 규칙.
+   * 첫 번째 괄호 ( ) 안에 잡힌 문자열을 캐릭터 ID로 사용하며,
+   * 위 5개 ID 중 하나와 정확히 일치할 때만 적용됩니다.
+   * 도메인 형식이 바뀌면 이 규칙만 수정하세요. (예: /^([a-z0-9]+)\.evertreasure\.com$/)
+   */
+  characterHostPattern: /^evertreasure-([a-z0-9]+)\./,
+
+  /** 도메인 규칙에 맞지 않을 때 사용할 기본 캐릭터 (개발 서버에서도 이 값이 보입니다) */
   character: 'bella' as CharacterId,
 
   // ── SNS 링크 (비워두면("") 해당 아이콘이 숨겨집니다) ────────

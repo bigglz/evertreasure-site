@@ -3,11 +3,14 @@
 /**
  * 좌측 캐릭터 사이드바: 프로필 이미지 ↔ 모션 비디오 자동 교차 재생, SNS 링크, 인사말.
  * (원본 User Sidebar + profileVideoToggle 이식)
- * 캐릭터 변경은 content/site.config.ts 의 character 값을 수정하세요.
+ *
+ * 표시할 캐릭터는 접속한 도메인에 따라 자동으로 결정됩니다. (src/lib/character.ts)
+ * 도메인 규칙과 기본 캐릭터는 content/site.config.ts 에서 수정하세요.
  */
 
-import { useEffect, useRef } from 'react';
-import { siteConfig, characters } from '@content/site.config';
+import { useEffect, useRef, useState } from 'react';
+import { siteConfig, characters, type CharacterId } from '@content/site.config';
+import { resolveCharacterId } from '@/lib/character';
 import { useI18n } from '@/lib/i18n';
 import { ThemeImage } from '@/lib/theme';
 import { asset } from '@/lib/basePath';
@@ -17,9 +20,16 @@ const IMAGE_HOLD_MS = 2000; // 이미지가 표시되는 시간
 
 export default function SidebarUser() {
   const { t, html } = useI18n();
-  const character = characters[siteConfig.character];
+  // 서버 렌더링 시점에는 도메인을 알 수 없으므로 기본 캐릭터로 그려두고,
+  // 마운트 직후 실제 도메인에 맞는 캐릭터로 교체합니다. (다크모드 처리와 같은 방식)
+  const [characterId, setCharacterId] = useState<CharacterId>(siteConfig.character);
+  const character = characters[characterId];
   const videoRef = useRef<HTMLVideoElement>(null);
   const imageWrapRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setCharacterId(resolveCharacterId());
+  }, []);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -33,14 +43,11 @@ export default function SidebarUser() {
       timers.push(setTimeout(fn, ms));
     };
 
-    // iOS Safari에서 비디오 로드를 위한 설정 (원본과 동일)
-    const isIOS =
-      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    if (isIOS) {
-      video.muted = true;
-      video.load();
-    }
+    // <source>의 src가 바뀌어도 load()를 호출하지 않으면 브라우저가 새 파일을 읽지 않습니다.
+    // 캐릭터가 교체될 때 이전 캐릭터 영상이 그대로 재생되는 것을 막습니다.
+    // (iOS Safari에서는 최초 로드에도 이 호출이 필요합니다 — 원본과 동일)
+    video.muted = true;
+    video.load();
 
     const playVideo = () => {
       if (disposed) return;
@@ -76,8 +83,13 @@ export default function SidebarUser() {
       video.removeEventListener('canplaythrough', startCycle);
       video.removeEventListener('loadeddata', startCycle);
       video.removeEventListener('ended', hideVideo);
+      // 재생 중에 캐릭터가 바뀌어도 정지 이미지 상태에서 다시 시작하도록 되돌립니다.
+      video.pause();
+      video.classList.remove('active');
+      imageWrap.classList.remove('video-playing');
     };
-  }, []);
+    // 캐릭터가 바뀌면 새 영상으로 사이클을 다시 시작합니다.
+  }, [characterId]);
 
   return (
     <div className="sidebar-user">
@@ -140,7 +152,7 @@ export default function SidebarUser() {
             <span className="dot"></span>
             <span>{t(character.titleKey)}</span>
           </p>
-          <AnimatedGreeting helloKeys={character.helloKeys} />
+          <AnimatedGreeting key={characterId} helloKeys={character.helloKeys} />
           <p
             className="introduce text-white-56 letter-space--05 text-body-3"
             style={{ marginBottom: 10 }}

@@ -1,0 +1,80 @@
+# ============================================================
+# 앞단(호스트) Nginx 설정 예시 — 5개 도메인 → 컨테이너 1개
+#
+# 사용법: 이 파일을 /etc/nginx/sites-available/evertreasure.conf 등으로 복사한 뒤
+#         인증서 경로와 포트를 환경에 맞게 수정하세요.
+#
+# 핵심: 캐릭터 판별은 브라우저가 자기 주소(location.hostname)를 보고 하므로
+#       도메인별로 서버 블록을 나눌 필요가 없습니다. 하나의 블록에 5개 도메인을
+#       모두 적고 같은 컨테이너로 프록시하면 됩니다.
+# ============================================================
+
+# 검색엔진 중복 콘텐츠 방지: 5개 도메인이 완전히 동일한 HTML을 서빙하므로
+# 대표 도메인 1개만 색인시키고 나머지는 제외합니다.
+# 정적 HTML이라 도메인별 canonical 태그를 심을 수 없어 헤더로 처리합니다.
+map $host $et_robots {
+    default                        "noindex, nofollow";
+    evertreasure-bella.bigglz.com  "index, follow";
+}
+
+# HTTP → HTTPS 리다이렉트
+server {
+    listen 80;
+    listen [::]:80;
+    server_name evertreasure-bella.bigglz.com
+                evertreasure-lumi.bigglz.com
+                evertreasure-nua.bigglz.com
+                evertreasure-shiro.bigglz.com
+                evertreasure-tenzo.bigglz.com;
+
+    # certbot 갱신용 경로는 리다이렉트에서 제외
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    http2 on;
+
+    server_name evertreasure-bella.bigglz.com
+                evertreasure-lumi.bigglz.com
+                evertreasure-nua.bigglz.com
+                evertreasure-shiro.bigglz.com
+                evertreasure-tenzo.bigglz.com;
+
+    # 서브도메인이 5개이므로 와일드카드 인증서를 권장합니다.
+    #   certbot certonly --manual --preferred-challenges dns -d '*.bigglz.com' -d bigglz.com
+    # (와일드카드는 DNS-01 챌린지가 필요합니다. 개별 발급 시 -d 로 5개를 모두 나열하세요)
+    ssl_certificate     /etc/letsencrypt/live/bigglz.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/bigglz.com/privkey.pem;
+    ssl_protocols       TLSv1.2 TLSv1.3;
+    ssl_session_cache   shared:SSL:10m;
+
+    add_header X-Robots-Tag  $et_robots always;
+    add_header X-Frame-Options SAMEORIGIN always;
+    add_header X-Content-Type-Options nosniff always;
+
+    # 캐릭터 모션 영상이 개당 약 9MB입니다.
+    client_max_body_size 1m;
+
+    location / {
+        # docker run -p 8080:80 으로 띄운 컨테이너
+        proxy_pass http://127.0.0.1:8080;
+
+        proxy_http_version 1.1;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # 대용량 mp4를 임시 파일에 모으지 않고 바로 흘려보냅니다.
+        # (없으면 캐릭터 영상 첫 재생이 눈에 띄게 늦어집니다)
+        proxy_max_temp_file_size 0;
+    }
+}

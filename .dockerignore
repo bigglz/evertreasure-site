@@ -1,0 +1,23 @@
+# 도커 빌드 컨텍스트에서 제외할 항목
+# (없으면 76MB 이미지 폴더 외에 node_modules·빌드 캐시·로컬 키까지 전송됩니다)
+
+node_modules
+.next
+out
+.git
+.github
+.idea
+.claude
+origin
+
+# 실제 키가 담긴 로컬 환경 변수 파일은 이미지에 절대 들어가지 않도록 제외합니다.
+# (빌드 시 값은 --build-arg 로 전달합니다)
+.env
+.env.local
+.env*.local
+
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+Dockerfile
+.dockerignore

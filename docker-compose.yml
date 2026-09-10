@@ -1,0 +1,25 @@
+# ============================================================
+# 로컬/서버에서 컨테이너를 손쉽게 띄우기 위한 설정
+#
+#   docker compose up -d --build     # 빌드 후 실행 (http://localhost:8080)
+#   docker compose logs -f           # 로그 보기
+#   docker compose down              # 중지
+#
+# 문의 폼 키는 같은 폴더의 .env.local 에서 읽어옵니다.
+# 앞단 Nginx에서 이 컨테이너(8080)로 프록시하세요.
+# (설정 예시: docker/nginx.host.conf.example)
+# ============================================================
+
+services:
+  site:
+    build:
+      context: .
+      args:
+        # 도메인이 5개지만 빌드는 하나이므로 SNS 공유 이미지용 대표 도메인 1개를 지정합니다.
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://evertreasure-bella.bigglz.com}
+        NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY: ${NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY:-}
+    image: evertreasure-site
+    container_name: evertreasure-site
+    restart: unless-stopped
+    ports:
+      - '8080:80'
