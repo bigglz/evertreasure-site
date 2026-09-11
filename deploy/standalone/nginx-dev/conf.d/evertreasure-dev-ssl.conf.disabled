@@ -1,0 +1,54 @@
+# ============================================================
+# 테스트 서버용 앞단 Nginx — 443 포트 / HTTPS
+#
+# ⚠ 인증서를 발급한 "뒤에" 활성화하세요.
+#    인증서가 없으면 nginx 가 기동 시 파일을 못 찾아 죽습니다.
+#
+#   mv evertreasure-dev-ssl.conf.disabled evertreasure-dev-ssl.conf
+#   docker compose -f docker-compose.server.yml exec proxy nginx -s reload
+# ============================================================
+
+server {
+    listen 443 ssl default_server;
+    listen [::]:443 ssl default_server;
+    http2 on;
+
+    server_name evertreasure-dev-shiro.bigglz.com
+                evertreasure-dev-tenzo.bigglz.com;
+
+    # 인증서 폴더 이름 = certbot 발급 시 첫 번째 -d 도메인
+    # 실제 경로 확인:
+    #   docker compose -f docker-compose.server.yml run --rm certbot certificates
+    ssl_certificate     /etc/letsencrypt/live/evertreasure-dev-shiro.bigglz.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/evertreasure-dev-shiro.bigglz.com/privkey.pem;
+
+    ssl_protocols             TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers off;
+    ssl_session_cache         shared:SSL:10m;
+    ssl_session_timeout       1d;
+    ssl_session_tickets       off;
+
+    # ⚠ 테스트 서버는 절대 검색엔진에 노출되면 안 됩니다.
+    #   운영용 conf 와 달리 도메인 분기 없이 항상 noindex 입니다.
+    add_header X-Robots-Tag           "noindex, nofollow" always;
+    add_header X-Frame-Options        SAMEORIGIN always;
+    add_header X-Content-Type-Options nosniff always;
+
+    # HSTS 는 테스트 서버에 걸지 마세요.
+    # 브라우저가 이 도메인의 HTTP 접속을 장기간 거부하게 되어 실험이 번거로워집니다.
+
+    client_max_body_size 1m;
+
+    location / {
+        proxy_pass http://site:80;
+
+        proxy_http_version 1.1;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # 캐릭터 모션 영상이 개당 약 9MB입니다.
+        proxy_max_temp_file_size 0;
+    }
+}

@@ -1,0 +1,62 @@
+# ============================================================
+# 앞단 Nginx (도커) — 443 포트 / HTTPS
+#
+# ⚠ 인증서를 발급한 "뒤에" 활성화하세요.
+#    파일이 없으면 nginx 가 기동 시 인증서를 못 찾아 죽습니다(닭-달걀 문제).
+#
+#   mv evertreasure-ssl.conf.disabled evertreasure-ssl.conf
+#   docker compose -f docker-compose.server.yml exec proxy nginx -s reload
+#
+# 인증서 경로는 발급 방식에 따라 다릅니다. 아래는 5개 도메인을 한 장에 담은
+# 경우(HTTP-01)이고, 와일드카드(DNS-01)로 받았다면 bigglz.com 으로 바꾸세요.
+# 실제 경로 확인:
+#   docker compose -f docker-compose.server.yml run --rm certbot certificates
+# ============================================================
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    http2 on;
+
+    server_name evertreasure-bella.bigglz.com
+                evertreasure-lumi.bigglz.com
+                evertreasure-nua.bigglz.com
+                evertreasure-shiro.bigglz.com
+                evertreasure-tenzo.bigglz.com;
+
+    ssl_certificate     /etc/letsencrypt/live/evertreasure-bella.bigglz.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/evertreasure-bella.bigglz.com/privkey.pem;
+
+    ssl_protocols             TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers off;
+    ssl_session_cache         shared:SSL:10m;
+    ssl_session_timeout       1d;
+    ssl_session_tickets       off;
+    ssl_stapling              on;
+    ssl_stapling_verify       on;
+
+    add_header X-Robots-Tag            $et_robots always;
+    add_header X-Frame-Options         SAMEORIGIN always;
+    add_header X-Content-Type-Options  nosniff always;
+    # HSTS: 한 번 적용되면 브라우저가 해당 기간 HTTP 접속을 거부합니다.
+    # HTTPS가 완전히 안정된 뒤에 주석을 해제하세요.
+    # add_header Strict-Transport-Security "max-age=31536000" always;
+
+    # 업로드 기능이 없으므로 작게 제한합니다.
+    client_max_body_size 1m;
+
+    location / {
+        # 같은 compose 네트워크의 사이트 컨테이너. 호스트 포트를 열지 않아도 됩니다.
+        proxy_pass http://site:80;
+
+        proxy_http_version 1.1;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # 캐릭터 모션 영상이 개당 약 9MB입니다.
+        # 임시 파일에 모으지 않고 바로 흘려보내야 첫 재생이 늦지 않습니다.
+        proxy_max_temp_file_size 0;
+    }
+}

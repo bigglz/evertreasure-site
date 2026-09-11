@@ -25,3 +25,13 @@ next-env.d.ts
 /.claude/
 # JetBrains IDE 로컬 설정
 /.idea/
+
+# 수동 배포 산출물 (도커 이미지 tar.gz — 수십 MB)
+/dist/
+# 배포 서버 접속 정보 (deploy/.env.deploy.example 를 복사해서 만드는 로컬 파일)
+/deploy/.env.deploy
+# 서버 인증서/챌린지 데이터 (서버에서 생성, 커밋 금지)
+/deploy/standalone/data/
+# 배포된 이미지 태그 기록 (서버에서 생성)
+/deploy/.env.dev
+/deploy/.env.prod

@@ -90,23 +90,23 @@ npm run dev
 
 **접속한 도메인에 따라 캐릭터가 자동으로 결정됩니다.** 빌드나 배포를 도메인마다 따로 할 필요가 없고, 컨테이너 하나로 5개 도메인을 모두 서비스합니다.
 
-| 도메인 | 캐릭터 |
-|---|---|
-| `evertreasure-bella.bigglz.com` | 벨라 / 핑크 돌고래 |
-| `evertreasure-lumi.bigglz.com` | 루미 / 북극여우 |
-| `evertreasure-nua.bigglz.com` | 누아 / 오랑우탄 |
-| `evertreasure-shiro.bigglz.com` | 시로 / 코뿔소 |
-| `evertreasure-tenzo.bigglz.com` | 텐조 / 바다 거북이 |
+| 캐릭터 | 운영 도메인 | 개발 도메인 |
+|---|---|---|
+| 벨라 / 핑크 돌고래 | `evertreasure-bella.bigglz.com` | `evertreasure-dev-bella.bigglz.com` |
+| 루미 / 북극여우 | `evertreasure-lumi.bigglz.com` | `evertreasure-dev-lumi.bigglz.com` |
+| 누아 / 오랑우탄 | `evertreasure-nua.bigglz.com` | `evertreasure-dev-nua.bigglz.com` |
+| 시로 / 코뿔소 | `evertreasure-shiro.bigglz.com` | `evertreasure-dev-shiro.bigglz.com` |
+| 텐조 / 바다 거북이 | `evertreasure-tenzo.bigglz.com` | `evertreasure-dev-tenzo.bigglz.com` |
 
-규칙은 `content/site.config.ts`의 `characterHostPattern`에 있습니다. `evertreasure-` 뒤의 이름을 캐릭터 ID로 사용하므로, 위 형식의 도메인을 추가하면 **설정을 고치지 않아도** 자동으로 적용됩니다.
+규칙은 `content/site.config.ts`의 `characterHostPattern`에 있습니다. **첫 점(.) 앞의 마지막 하이픈 구간**을 캐릭터 ID로 쓰기 때문에, 중간에 `dev`·`stage` 같은 환경 이름이 들어가도 그대로 동작합니다. 위 형식의 도메인을 추가하면 **설정을 고치지 않아도** 자동으로 적용됩니다.
 
 ```ts
-characterHostPattern: /^evertreasure-([a-z0-9]+)\./,
+characterHostPattern: /^evertreasure-(?:[a-z0-9]+-)*([a-z0-9]+)\./,
 character: 'bella' as CharacterId,   // 규칙에 맞지 않을 때 쓰는 기본값
 ```
 
-- 도메인 형식이 바뀌면 `characterHostPattern`만 수정하세요.
-- `localhost`(개발 서버), IP 직접 접속, 오타 도메인에서는 항상 `character` 기본값이 보입니다.
+- 도메인 형식이 완전히 바뀌면 `characterHostPattern`만 수정하세요.
+- `localhost`(개발 서버), IP 직접 접속, 오타 도메인, `evertreasure-dev.bigglz.com`처럼 캐릭터 이름이 없는 주소에서는 항상 `character` 기본값이 보입니다.
 **로컬에서 도메인 전환 테스트하기**
 
 `*.localhost` 는 별도 설정 없이 자동으로 127.0.0.1 로 연결됩니다. 개발 서버(`npm run dev`)를 켠 뒤 아래 주소로 접속하면 실제 도메인 판별 로직을 그대로 확인할 수 있습니다.
@@ -119,12 +119,20 @@ http://evertreasure-shiro.localhost:3000/
 http://evertreasure-tenzo.localhost:3000/
 ```
 
+개발 도메인 형태(`evertreasure-dev-*`)도 같은 방식으로 확인할 수 있습니다.
+
+```
+http://evertreasure-dev-bella.localhost:3000/
+http://evertreasure-dev-shiro.localhost:3000/
+```
+
 - 포트 번호는 판별에 영향을 주지 않습니다. 3000번이 사용 중이면 개발 서버가 3001 등으로 뜨니 터미널에 표시된 포트를 쓰세요.
 - 더 간단하게는 주소 뒤에 `?character=캐릭터ID`를 붙여도 됩니다. 예) `http://localhost:3000/?character=shiro`
 - 실제 운영 도메인(`.bigglz.com`)으로 확인하려면 `/etc/hosts`에 아래를 추가하세요. (관리자 권한 필요)
 
 ```
 127.0.0.1  evertreasure-bella.bigglz.com evertreasure-lumi.bigglz.com evertreasure-nua.bigglz.com evertreasure-shiro.bigglz.com evertreasure-tenzo.bigglz.com
+127.0.0.1  evertreasure-dev-bella.bigglz.com evertreasure-dev-lumi.bigglz.com evertreasure-dev-nua.bigglz.com evertreasure-dev-shiro.bigglz.com evertreasure-dev-tenzo.bigglz.com
 ```
 
 캐릭터별 이미지·비디오·인사말 매핑은 같은 파일의 `characters` 객체에 있습니다. 판별 로직은 `src/lib/character.ts`에 있습니다.

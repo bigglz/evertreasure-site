@@ -1,0 +1,62 @@
+# ============================================================
+# 배포 서버용 Compose — 사이트 + 앞단 Nginx + Certbot (전부 도커)
+#
+# 로컬에서 만든 이미지 tar 를 서버에서 docker load 한 뒤 이 파일로 띄웁니다.
+# 여기서는 build 를 하지 않습니다(서버에 소스 코드가 필요 없습니다).
+#
+#   docker compose -f docker-compose.server.yml up -d
+#   docker compose -f docker-compose.server.yml ps
+#   docker compose -f docker-compose.server.yml logs -f
+#
+# IMAGE_TAG 는 같은 폴더의 .env 에서 읽습니다(배포 스크립트가 자동으로 갱신).
+# ============================================================
+
+services:
+  # ── 정적 사이트 컨테이너 (이미지 내부에 Nginx 포함, docker/nginx.conf 사용) ──
+  # 앞단 프록시만 접근하면 되므로 호스트 포트를 열지 않습니다.
+  # 같은 네트워크 안에서 http://site:80 으로 통신합니다.
+  site:
+    image: evertreasure-site:${IMAGE_TAG:-latest}
+    container_name: evertreasure-site
+    restart: unless-stopped
+    expose:
+      - '80'
+    networks:
+      - web
+
+  # ── 앞단 Nginx: 도메인 연결 · TLS 종료 · 사이트 컨테이너로 프록시 ──
+  # 6시간마다 reload 해서 certbot 이 갱신한 인증서를 무중단으로 반영합니다.
+  proxy:
+    image: nginx:alpine
+    container_name: evertreasure-proxy
+    restart: unless-stopped
+    depends_on:
+      - site
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./data/letsencrypt:/etc/letsencrypt:ro
+      - ./data/certbot-www:/var/www/certbot
+    command: >
+      /bin/sh -c "while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g 'daemon off;'"
+    networks:
+      - web
+
+  # ── Certbot: 인증서 발급 · 자동 갱신 (12시간마다 갱신 시도) ──
+  # 최초 발급은 `docker compose run --rm certbot certonly ...` 로 수동 실행하고,
+  # 이 서비스는 갱신 전용으로 계속 떠 있습니다. 호스트 cron 이 필요 없습니다.
+  certbot:
+    image: certbot/certbot:latest
+    container_name: evertreasure-certbot
+    restart: unless-stopped
+    volumes:
+      - ./data/letsencrypt:/etc/letsencrypt
+      - ./data/certbot-www:/var/www/certbot
+    entrypoint: >
+      /bin/sh -c "trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot --quiet; sleep 12h & wait $${!}; done"
+
+networks:
+  web:
+    name: evertreasure-web
