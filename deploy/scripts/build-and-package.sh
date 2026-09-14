@@ -19,15 +19,17 @@ cd "$(dirname "$0")/../.."   # 프로젝트 루트로 이동
 IMAGE_NAME="${IMAGE_NAME:-evertreasure-site}"
 IMAGE_TAG="${1:-$(date +%Y%m%d-%H%M)}"
 PLATFORM="${PLATFORM:-linux/amd64}"
-SITE_URL="${NEXT_PUBLIC_SITE_URL:-https://evertreasure-bella.bigglz.com}"
 OUT_DIR="dist"
 
-# 문의 폼 키: .env.local 에 있으면 자동으로 읽어옵니다.
-if [ -z "${NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY:-}" ] && [ -f .env.local ]; then
-  NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY="$(grep -E '^NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY=' .env.local | tail -1 | cut -d= -f2- | tr -d '"' | tr -d "'")"
+# NEXT_PUBLIC_* 값은 Dockerfile 안에서 .env.local 을 읽어 처리합니다.
+# 여기서는 "환경변수로 덮어쓴 경우"에만 --build-arg 로 전달합니다.
+#   NEXT_PUBLIC_SITE_URL=https://... ./deploy/scripts/build-and-package.sh 0.0002
+BUILD_ARGS=()
+if [ -n "${NEXT_PUBLIC_SITE_URL:-}" ]; then
+  BUILD_ARGS+=(--build-arg "NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}")
 fi
-if [ -z "${NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY:-}" ]; then
-  echo "⚠  NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY 가 비어 있습니다. 문의 폼이 동작하지 않습니다." >&2
+if [ -n "${NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY:-}" ]; then
+  BUILD_ARGS+=(--build-arg "NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY=${NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY}")
 fi
 
 ARCHIVE="${OUT_DIR}/${IMAGE_NAME}-${IMAGE_TAG}.tar.gz"
@@ -37,8 +39,7 @@ docker build \
   --platform "${PLATFORM}" \
   --provenance=false --sbom=false \
   -t "${IMAGE_NAME}:${IMAGE_TAG}" \
-  --build-arg "NEXT_PUBLIC_SITE_URL=${SITE_URL}" \
-  --build-arg "NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY=${NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY:-}" \
+  ${BUILD_ARGS+"${BUILD_ARGS[@]}"} \
   .
 
 echo "▶ 압축: ${ARCHIVE}"

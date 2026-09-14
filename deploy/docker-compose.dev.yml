@@ -28,7 +28,7 @@ name: evertreasure-dev
 
 services:
   site:
-    image: "evertreasure-site:${IMAGE_TAG:?IMAGE_TAG 를 지정하세요 - 예 IMAGE_TAG=0.0002}"
+    image: "${IMAGE_NAME:-evertreasure-site}:${IMAGE_TAG:?IMAGE_TAG 를 지정하세요 - 예 IMAGE_TAG=0.0002}"
     container_name: evertreasure-site-dev
     restart: unless-stopped
 

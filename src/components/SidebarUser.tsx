@@ -153,7 +153,9 @@ export default function SidebarUser() {
             <span>{t(character.titleKey)}</span>
           </p>
           <AnimatedGreeting key={characterId} helloKeys={character.helloKeys} />
-          <p
+          {/* 인사말 번역문에 <p> 블록이 포함되어 있어 컨테이너는 div 여야 합니다.
+              (<p> 안에 <p>를 넣으면 브라우저 파서가 바깥 <p>를 강제로 닫아 hydration 불일치가 발생) */}
+          <div
             className="introduce text-white-56 letter-space--05 text-body-3"
             style={{ marginBottom: 10 }}
             dangerouslySetInnerHTML={html(character.greetingKey)}

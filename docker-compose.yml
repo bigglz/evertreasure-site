@@ -1,11 +1,29 @@
 # ============================================================
 # 로컬에서 컨테이너를 손쉽게 띄우기 위한 설정 (개발자 확인용)
 #
-#   docker compose up -d --build     # 빌드 후 실행 (http://localhost:8080)
-#   docker compose logs -f           # 로그 보기
-#   docker compose down              # 중지
+#   npm run docker:up                # 빌드 후 실행 (http://localhost:8080)
+#   npm run docker:down              # 중지
 #
-# 문의 폼 키는 같은 폴더의 .env.local 에서 읽어옵니다.
+#   # 이미지 이름·태그를 바꾸려면 앞에 변수를 붙입니다 (기본: evertreasure-site:local)
+#   IMAGE_TAG=0.0003 npm run docker:up
+#   IMAGE_NAME=myrepo/evertreasure IMAGE_TAG=0.0003 npm run docker:build
+#
+#   docker compose up -d --build     # npm 스크립트 없이 직접 실행
+#   docker compose logs -f
+#
+# ── 환경 변수는 어디서 읽나요? ────────────────────────────────
+# .env.local 은 빌드 컨텍스트 안에서 Next.js 가 직접 읽습니다.
+# (.dockerignore 에서 .env.local 만 예외로 포함 → Dockerfile 주석 참고)
+# 따라서 compose 쪽에 --env-file 을 붙이지 않아도 키가 들어갑니다.
+#
+# 아래 ${...} 는 "덮어쓰기" 용도입니다. compose 는 이 치환에 같은 폴더의
+# ".env" 만 읽고 ".env.local" 은 읽지 않으므로, 값을 덮어쓸 때는
+# 환경변수를 앞에 붙이세요.
+#   NEXT_PUBLIC_SITE_URL=https://evertreasure-lumi.bigglz.com npm run docker:up
+#
+# ⚠ NEXT_PUBLIC_* 값은 "빌드 시점"에 JS 번들 안에 문자열로 박힙니다.
+#   키를 바꿨다면 컨테이너 재시작이 아니라 이미지를 다시 빌드해야 합니다.
+#   (--build 를 빼먹으면 예전 키가 그대로 남습니다)
 #
 # ⚠ 서버 배포에는 이 파일을 쓰지 않습니다.
 #   서버는 deploy/docker-compose.{dev,prod}.yml 을 사용합니다 → deploy/README.md
@@ -19,10 +37,15 @@ services:
     build:
       context: .
       args:
-        # 도메인이 여러 개지만 빌드는 하나이므로 SNS 공유 이미지용 대표 도메인 1개를 지정합니다.
-        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://evertreasure-bella.bigglz.com}
+        # 비워두면 Dockerfile 안에서 .env.local 을 읽습니다.
+        # 환경변수를 지정한 경우에만 그 값이 .env.local 을 덮어씁니다.
+        #   예) NEXT_PUBLIC_SITE_URL=https://evertreasure-lumi.bigglz.com npm run docker:up
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-}
         NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY: ${NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY:-}
-    image: evertreasure-site:${IMAGE_TAG:-local}
+    # 이미지 이름·태그. 기본은 evertreasure-site:local 이고,
+    # IMAGE_TAG=0.0003 npm run docker:up 처럼 앞에 붙여 바꿀 수 있습니다.
+    # (배포용 이미지는 deploy/scripts/build-and-package.sh 가 만듭니다)
+    image: ${IMAGE_NAME:-evertreasure-site}:${IMAGE_TAG:-local}
     container_name: evertreasure-site-local
     restart: unless-stopped
     ports:

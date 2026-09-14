@@ -16,7 +16,7 @@ services:
   # 앞단 프록시만 접근하면 되므로 호스트 포트를 열지 않습니다.
   # 같은 네트워크 안에서 http://site:80 으로 통신합니다.
   site:
-    image: evertreasure-site:${IMAGE_TAG:-latest}
+    image: ${IMAGE_NAME:-evertreasure-site}:${IMAGE_TAG:-latest}
     container_name: evertreasure-site
     restart: unless-stopped
     expose:

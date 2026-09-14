@@ -10,11 +10,19 @@ out
 .claude
 origin
 
-# 실제 키가 담긴 로컬 환경 변수 파일은 이미지에 절대 들어가지 않도록 제외합니다.
-# (빌드 시 값은 --build-arg 로 전달합니다)
+# 로컬 환경 변수 파일.
+# .env.local 만 예외로 포함합니다 — Next.js 가 빌드 시점에 직접 읽으므로
+# `docker build ...` 만으로도 문의 폼 키가 들어갑니다. (Dockerfile 주석 참고)
+#
+# ⚠ .env.local 은 빌드 1단계(node) 레이어에만 들어가고 최종 nginx 이미지에는
+#   포함되지 않습니다. 그래도 빌더 캐시에는 남으므로, 이 파일에는 브라우저에
+#   노출되어도 되는 NEXT_PUBLIC_* 값만 두세요. 진짜 비밀값은 넣지 마세요.
+# (glob 대신 파일명을 하나씩 적습니다 — "!" 예외 규칙의 순서 해석에 의존하지
+#  않으려는 의도. .env.local 은 여기에 없으므로 컨텍스트에 포함됩니다)
 .env
-.env.local
-.env*.local
+.env.development.local
+.env.production.local
+.env.test.local
 
 .DS_Store
 *.tsbuildinfo

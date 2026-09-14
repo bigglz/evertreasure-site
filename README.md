@@ -237,17 +237,38 @@ GitHub Pages는 저장소 이름이 URL 경로에 포함되는 하위 경로 배
 **1) 컨테이너 실행**
 
 ```bash
-docker compose up -d --build
+npm run docker:up
 ```
 
 `http://localhost:8080` 에서 확인할 수 있습니다. 문의 폼 키는 `.env.local`의 `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY`를 읽어갑니다.
 
+> `NEXT_PUBLIC_*` 값은 **빌드 시점에 JS 번들 안으로 박히는** 값입니다. 키를 바꿨다면 컨테이너를 재시작하거나 `-e` 로 환경변수를 넘기는 것으로는 반영되지 않고, **이미지를 다시 빌드**해야 합니다.
+
+이미지 이름·태그는 기본값이 `evertreasure-site:local` 이며, 변수로 바꿀 수 있습니다:
+
+```bash
+IMAGE_TAG=0.0003 npm run docker:up
+IMAGE_NAME=myrepo/evertreasure IMAGE_TAG=0.0003 npm run docker:build
+```
+
+> 이 로컬 compose 는 동작 확인용입니다. **서버에 올릴 이미지는 `deploy/scripts/build-and-package.sh` 로 만드세요** — 태그가 없으면 `20260914-1530` 형식으로 자동 생성되고, `linux/amd64` 플랫폼 고정과 `tar.gz` 패키징까지 해줍니다.
+
 `docker compose` 없이 직접 실행하려면:
 
 ```bash
-docker build -t evertreasure-site --build-arg NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY=발급받은-키 .
-docker run -d --name evertreasure-site -p 8080:80 --restart unless-stopped evertreasure-site
+docker build --platform linux/amd64 -t evertreasure-site:0.0002 .
+docker run -d --name evertreasure-site -p 8080:80 --restart unless-stopped evertreasure-site:0.0002
 ```
+
+`--build-arg` 는 필요 없습니다. `.env.local` 이 빌드 컨텍스트에 포함되어 있어서 컨테이너 안의 `next build` 가 직접 읽어갑니다. 특정 값만 다르게 넣고 싶을 때만 덮어쓰세요:
+
+```bash
+docker build --build-arg NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY=다른-키 -t evertreasure-site:0.0002 .
+```
+
+우선순위는 **`--build-arg` > `.env.local` > 코드 기본값** 입니다. 키가 어디에도 없으면 빌드 로그에 경고가 뜨고, 사이트는 정상 동작하되 문의 폼만 실패합니다.
+
+> ⚠ `.env.local` 은 빌드 1단계(node) 레이어에만 들어가고 **최종 nginx 이미지에는 포함되지 않습니다.** 다만 빌더 캐시에는 남으므로, 이 파일에는 브라우저에 노출되어도 되는 `NEXT_PUBLIC_*` 값만 두세요.
 
 **2) 앞단 Nginx 설정**
 

@@ -90,7 +90,7 @@ echo "  · ${ENV_NAME} 컨테이너 교체"
 # 환경변수 대신 --env-file 을 쓰는 이유: DOCKER 가 "sudo docker" 인 경우
 # IMAGE_TAG=x sudo docker ... 형태로는 변수가 전달되지 않습니다(sudo 가 환경을 지움).
 # 부수효과로 "지금 이 환경에 뭐가 올라가 있는지"가 서버에 파일로 남습니다.
-echo "IMAGE_TAG=${IMAGE_TAG}" > "deploy/.env.${ENV_NAME}"
+printf 'IMAGE_NAME=%s\nIMAGE_TAG=%s\n' "${IMAGE_NAME}" "${IMAGE_TAG}" > "deploy/.env.${ENV_NAME}"
 ${DOCKER} compose --env-file "deploy/.env.${ENV_NAME}" -f "${COMPOSE_FILE}" up -d
 
 echo "  · 정리 (최근 ${KEEP}개 아카이브 유지)"

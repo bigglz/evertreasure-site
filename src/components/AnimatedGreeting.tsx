@@ -80,7 +80,9 @@ export default function AnimatedGreeting({ helloKeys }: { helloKeys: [string, st
       className="greeting letter-space--2 text-white animationtext clip"
       style={{ fontWeight: 900, fontSize: 26 }}
     >
-      <p>{t(helloKeys[0])}</p>
+      {/* <h5>는 phrasing content만 허용하므로 <p> 대신 block span을 씁니다.
+          (전역 리셋으로 p의 margin이 0이라 display:block span과 렌더링 결과가 동일합니다) */}
+      <span style={{ display: 'block' }}>{t(helloKeys[0])}</span>
       <span className="cd-words-wrapper" ref={wrapperRef}>
         {words.map((word, i) => (
           <span key={i} className={`item-text ${visibleIndex === i ? 'is-visible' : 'is-hidden'}`}>
